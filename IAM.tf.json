@@ -1,0 +1,36 @@
+{
+  "provider": {
+    "aws": {
+      "region": "ap-south-1"
+    }
+  },
+  "resource": {
+    "aws_iam_user": {
+      "muna_user": {
+        "name": "muna-user"
+      }
+    },
+    "aws_iam_access_key": {
+      "muna_key": {
+        "user": "${aws_iam_user.muna_user.name}"
+      }
+    },
+    "aws_iam_user_policy_attachment": {
+      "ec2_readonly": {
+        "user": "${aws_iam_user.muna_user.name}",
+        "policy_arn": "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
+      }
+    }
+  },
+  "output": {
+    "iam_access_key_id": {
+      "value": "${aws_iam_access_key.muna_key.id}",
+      "sensitive": true
+    },
+    "iam_secret_access_key": {
+      "value": "${aws_iam_access_key.muna_key.secret}",
+      "sensitive": true
+    }
+  }
+}
+
